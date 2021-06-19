@@ -1,5 +1,10 @@
+// #region Global Imports
 const morgan = require('morgan');
+// #endregion Global Imports
+
+// #region Local Imports
 const Logger = require('../libs/logger');
+// #endregion Local Imports
 
 const stream = {
     write: (message) => Logger.http(message),
