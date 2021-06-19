@@ -1,7 +1,13 @@
+// #region Global Imports
 const express = require('express');
+// #endregion Global Imports
+
+// #region Local Imports
+const morgan = require('./middlewares/morgan');
+// #endregion Local Imports
+
 const app = express();
 const port = 3000;
-const morgan = require('./middlewares/morgan');
 
 app.use(morgan);
 
