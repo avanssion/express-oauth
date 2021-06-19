@@ -1,4 +1,6 @@
+// #region Global Imports
 const winston = require('winston');
+// #endregion Global Imports
 
 const levels = {
     error: 0,
