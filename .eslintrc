@@ -1,0 +1,17 @@
+{
+    "extends": [
+        "airbnb-base",
+        "prettier"
+    ],
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "paths": ["src"],
+                "extensions": [".js", ".jsx", ".ts", ".d.ts", ".tsx"]
+            }
+        }
+    },
+    "rules": {
+        "import/order": "off",
+    },
+}
