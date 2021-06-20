@@ -1,8 +1,5 @@
 {
-    "extends": [
-        "airbnb-base",
-        "prettier"
-    ],
+    "extends": ["airbnb-base", "prettier"],
     "settings": {
         "import/resolver": {
             "node": {
@@ -13,5 +10,11 @@
     },
     "rules": {
         "import/order": "off",
-    },
+        "camelcase": [
+            "error",
+            {
+                "ignoreDestructuring": true
+            }
+        ]
+    }
 }
