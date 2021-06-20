@@ -10,8 +10,6 @@ import { isValidOauthState, deleteOauthState } from '../../../src/utils';
 
 function LineCallback() {
     const [state, setState] = useState({
-        authCode: '',
-        authState: '',
         error: '',
         processingMessage: 'Linking your account...',
     });
@@ -47,23 +45,52 @@ function LineCallback() {
             }
         }
 
-        const { code, state: oauthState } = router.query;
-        const { authCode, authState } = state;
-        const canSetAuthCode = !authCode && router.query.code;
-        const canSetState = !authState && router.query.state;
-        if (canSetAuthCode && canSetState) {
-            setState({ ...state, authCode: code, authState: oauthState });
-            router.replace(router.pathname);
+        if (!router.isReady) {
+            return;
+        }
 
-            if (!isValidOauthState(oauthState)) {
-                deleteOauthState();
-                setState({ ...state, error: 'An CSRF error occurs.' });
+        const {
+            code,
+            error,
+            error_description: errorDescription,
+            state: oauthState,
+        } = router.query;
+
+        router.replace(router.pathname);
+
+        if (!code || error || errorDescription || !state) {
+            deleteOauthState();
+
+            if (error || errorDescription) {
+                setState({
+                    ...state,
+                    error: JSON.stringify({
+                        error: error || '',
+                        error_description: errorDescription || '',
+                    }),
+                });
                 return;
             }
 
-            signInUser(code);
+            if (!code) {
+                setState({ ...state, error: 'Missing code in url.' });
+                return;
+            }
+
+            if (!state) {
+                setState({ ...state, error: 'An CSRF error occured.' });
+                return;
+            }
         }
-    }, [router.query]);
+
+        if (!isValidOauthState(oauthState)) {
+            deleteOauthState();
+            setState({ ...state, error: 'An CSRF error occured.' });
+            return;
+        }
+
+        signInUser(code);
+    }, [router.isReady]);
 
     const { error, processingMessage } = state;
 
