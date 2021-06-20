@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 // #endregion Global Imports
 
 // #region Local Imports
-import { isValidOauthState, deleteOauthState } from '../../../config';
+import { isValidOauthState, deleteOauthState } from '../../../src/utils';
 // #endregion Local Imports
 
 function LineCallback() {

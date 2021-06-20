@@ -1,4 +1,6 @@
-import { generateOauthState } from '../config';
+// #region Local Imports
+import { generateOauthState } from '../src/utils';
+// #endregion Local Imports
 
 function Connect() {
     const oauthState = generateOauthState();
