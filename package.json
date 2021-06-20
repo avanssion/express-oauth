@@ -12,7 +12,11 @@
         "type": "git",
         "url": "git+https://github.com/avanssion/express-oauth.git"
     },
-    "keywords": ["express", "api", "oauth"],
+    "keywords": [
+        "express",
+        "api",
+        "oauth"
+    ],
     "author": "Florian Ludot",
     "license": "ISC",
     "bugs": {
@@ -20,10 +24,12 @@
     },
     "homepage": "https://github.com/avanssion/express-oauth#readme",
     "dependencies": {
+        "axios": "^0.21.1",
         "cors": "^2.8.5",
         "dotenv": "^10.0.0",
         "express": "^4.17.1",
         "morgan": "^1.10.0",
+        "qs": "^6.7.0",
         "uuid": "^8.3.2",
         "winston": "^3.3.3"
     },
