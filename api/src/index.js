@@ -8,6 +8,7 @@ const qs = require('qs');
 
 // #region Local Imports
 const morgan = require('./middlewares/morgan');
+const sendError = require('./libs/sendError');
 // #endregion Local Imports
 
 dotenv.config({ path: '.env.local' });
@@ -20,10 +21,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan);
 
-app.get('/auth/line/callback', async (req, res) => {
-    const { code, error, error_description: errorDescription } = req.query;
+app.post('/auth/oauth/line', async (req, res) => {
+    const { code } = req.body;
+
     if (!code) {
-        res.json({ error, errorDescription });
+        sendError(
+            res,
+            400,
+            'invalid_request_error',
+            'parameter_missing',
+            '`Code` is missing.',
+        );
+        return;
     }
 
     try {
@@ -33,7 +42,7 @@ app.get('/auth/line/callback', async (req, res) => {
             client_secret: process.env.OAUTH_LINE_SECRET,
             code,
             grant_type: 'authorization_code',
-            redirect_uri: 'http://localhost:4000/auth/line/callback',
+            redirect_uri: 'http://localhost:3000/auth/oauth/line',
         });
         /* eslint-enable camelcase */
 
@@ -49,10 +58,20 @@ app.get('/auth/line/callback', async (req, res) => {
         res.json(token.data);
     } catch (e) {
         if (e.response && e.response.data) {
-            res.json(e.response.data);
+            const {
+                error: errorCode,
+                error_description: errorDescription,
+            } = e.response.data;
+            sendError(
+                res,
+                e.status,
+                'api_error',
+                errorCode || '',
+                errorDescription || 'Something went wrong on Line side.',
+            );
             return;
         }
-        res.json({ error: e.toString() });
+        sendError(res, 500, 'api_error', '', 'Something went wrong.');
     }
 });
 
