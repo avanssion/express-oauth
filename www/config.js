@@ -38,5 +38,6 @@ export {
     deleteOauthState,
     generateOauthState,
     getOauthState,
+    hasWindow,
     isValidOauthState,
 };
