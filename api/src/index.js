@@ -1,5 +1,6 @@
 // #region Global Imports
 const axios = require('axios');
+const cors = require('cors');
 const dotenv = require('dotenv');
 const express = require('express');
 const qs = require('qs');
@@ -14,6 +15,7 @@ dotenv.config({ path: '.env.local' });
 const app = express();
 const port = 4000;
 
+app.use(cors());
 app.use(morgan);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
