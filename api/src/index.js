@@ -16,9 +16,9 @@ const app = express();
 const port = 4000;
 
 app.use(cors());
-app.use(morgan);
-app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(morgan);
 
 app.get('/auth/line/callback', async (req, res) => {
     const { code, error, error_description: errorDescription } = req.query;
